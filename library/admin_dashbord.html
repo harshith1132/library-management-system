@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+<nav>
+    <a href="{{ url_for('add_book') }}">Add Book</a>
+    <a href="{{ url_for('add_membership') }}">Add Membership</a>
+    <a href="{{ url_for('manage_user') }}">Manage User</a>
+</nav>
+<h3>Books</h3>
+<ul>
+    {% for book in books %}
+    <li>{{ book.title }} by {{ book.author }} ({{ book.isbn }})</li>
+    {% endfor %}
+</ul>
+{% endblock %}
