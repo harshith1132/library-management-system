@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "harsh"]
+	url = https://github.com/harshith1132/library-management-system
+	fetch = +refs/heads/*:refs/remotes/harsh/*
+[remote "newww"]
+	url = https://github.com/harshith1132/library-management-system
+	fetch = +refs/heads/*:refs/remotes/newww/*
+[remote "origin"]
+	url = https://github.com/harshith1132/library-management-system.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
