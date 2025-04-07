@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Add Book{% endblock %}
+{% block heading %}Add Book{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('add_book') }}">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="author" class="form-label">Author</label>
+                    <input type="text" class="form-control" id="author" name="author" required>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="isbn" class="form-label">ISBN</label>
+                    <input type="text" class="form-control" id="isbn" name="isbn" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Type</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" id="book" 
+                               value="book" checked>
+                        <label class="form-check-label" for="book">
+                            Book
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="type" id="movie" 
+                               value="movie">
+                        <label class="form-check-label" for="movie">
+                            Movie
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Add Book</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

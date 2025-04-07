@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-primary h-100">
+            <div class="card-body">
+                <h5 class="card-title">Books</h5>
+                <h2 class="card-text">{{ book_count }}</h2>
+                <p class="card-text">Total books in library</p>
+                <a href="{{ url_for('search_books') }}" class="btn btn-light">View Books</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-success h-100">
+            <div class="card-body">
+                <h5 class="card-title">Members</h5>
+                <h2 class="card-text">{{ member_count }}</h2>
+                <p class="card-text">Registered members</p>
+                <a href="{{ url_for('add_member') }}" class="btn btn-light">Manage Members</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-info h-100">
+            <div class="card-body">
+                <h5 class="card-title">Transactions</h5>
+                <h2 class="card-text">{{ transaction_count }}</h2>
+                <p class="card-text">Active book issues</p>
+                <a href="{{ url_for('issue_book') }}" class="btn btn-light">View Transactions</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>Recent Activities</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Activity</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for activity in recent_activities %}
+                    <tr>
+                        <td>{{ activity.date }}</td>
+                        <td>{{ activity.type }}</td>
+                        <td>{{ activity.details }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

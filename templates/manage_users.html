@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}User Management{% endblock %}
+{% block heading %}User Management{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('manage_users') }}">
+            <div class="mb-3">
+                <label class="form-label">Action</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="action" id="new" 
+                           value="new" checked>
+                    <label class="form-check-label" for="new">
+                        Add New User
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="action" id="existing" 
+                           value="existing">
+                    <label class="form-check-label" for="existing">
+                        Update Existing User
+                    </label>
+                </div>
+            </div>
+            
+            <div id="newUserFields">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role">
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="existingUserFields" style="display: none;">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="user_id" class="form-label">User ID</label>
+                        <input type="text" class="form-control" id="user_id" name="user_id">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>All Users</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in all_users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.role }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    // Show/hide fields based on action selection
+    document.querySelector('input[name="action"]').addEventListener('change', function() {
+        const newUserFields = document.getElementById('newUserFields');
+        const existingUserFields = document.getElementById('existingUserFields');
+        
+        if (this.value === 'new') {
+            newUserFields.style.display = 'block';
+            existingUserFields.style.display = 'none';
+        } else {
+            newUserFields.style.display = 'none';
+            existingUserFields.style.display = 'block';
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}
