@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Pay Fine{% endblock %}
+{% block heading %}Pay Fine{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('pay_fine', transaction_id=transaction.id) }}">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Book Title</label>
+                    <input type="text" class="form-control" value="{{ transaction.book_title }}" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Member Name</label>
+                    <input type="text" class="form-control" value="{{ transaction.member_name }}" readonly>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Issue Date</label>
+                    <input type="text" class="form-control" value="{{ transaction.issue_date }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Due Date</label>
+                    <input type="text" class="form-control" value="{{ transaction.due_date }}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Return Date</label>
+                    <input type="text" class="form-control" value="{{ transaction.return_date }}" readonly>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Fine Amount</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" value="{{ transaction.fine }}" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="fine_paid" name="fine_paid" 
+                               {% if transaction.fine <= 0 %}checked disabled{% endif %}>
+                        <label class="form-check-label" for="fine_paid">
+                            Fine Paid
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="remarks" class="form-label">Remarks</label>
+                <textarea class="form-control" id="remarks" name="remarks" rows="2">{{ transaction.remarks if transaction.remarks }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Confirm</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

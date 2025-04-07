@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Return Book{% endblock %}
+{% block heading %}Return Book{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('return_book') }}">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="transaction_id" class="form-label">Transaction ID</label>
+                    <input type="text" class="form-control" id="transaction_id" name="transaction_id" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="return_date" class="form-label">Return Date</label>
+                    <input type="date" class="form-control" id="return_date" name="return_date" 
+                           value="{{ today }}" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Return Book</button>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>Books Due for Return</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Book</th>
+                        <th>Member</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in active_transactions %}
+                    <tr>
+                        <td>{{ transaction.id }}</td>
+                        <td>{{ transaction.book_title }}</td>
+                        <td>{{ transaction.member_name }}</td>
+                        <td>{{ transaction.issue_date }}</td>
+                        <td>{{ transaction.due_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    // Set minimum date for return date as today
+    document.getElementById('return_date').min = new Date().toISOString().split('T')[0];
+</script>
+{% endblock %}
+{% endblock %}

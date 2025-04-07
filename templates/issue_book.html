@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Issue Book{% endblock %}
+{% block heading %}Issue Book{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('issue_book') }}">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="book_id" class="form-label">Book</label>
+                    <select class="form-select" id="book_id" name="book_id" required>
+                        <option value="">Select a book</option>
+                        {% for book in available_books %}
+                        <option value="{{ book.id }}">{{ book.title }} by {{ book.author }} ({{ book.isbn }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="member_id" class="form-label">Member</label>
+                    <select class="form-select" id="member_id" name="member_id" required>
+                        <option value="">Select a member</option>
+                        {% for member in active_members %}
+                        <option value="{{ member.id }}">{{ member.name }} ({{ member.email }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="issue_date" class="form-label">Issue Date</label>
+                    <input type="date" class="form-control" id="issue_date" name="issue_date" 
+                           value="{{ today }}" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="due_date" class="form-label">Due Date</label>
+                    <input type="date" class="form-control" id="due_date" name="due_date" 
+                           value="{{ default_due }}" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="remarks" class="form-label">Remarks</label>
+                <textarea class="form-control" id="remarks" name="remarks" rows="2"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Issue Book</button>
+        </form>
+    </div>
+</div>
+
+{% if issued_books %}
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>Recently Issued Books</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Member</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issued_books %}
+                    <tr>
+                        <td>{{ issue.book_title }}</td>
+                        <td>{{ issue.member_name }}</td>
+                        <td>{{ issue.issue_date }}</td>
+                        <td>{{ issue.due_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% block scripts %}
+<script>
+    // Set minimum date for issue date as today
+    document.getElementById('issue_date').min = new Date().toISOString().split('T')[0];
+    
+    // Calculate due date when issue date changes
+    document.getElementById('issue_date').addEventListener('change', function() {
+        const issueDate = new Date(this.value);
+        const dueDate = new Date(issueDate);
+        dueDate.setDate(dueDate.getDate() + 15);
+        
+        document.getElementById('due_date').value = dueDate.toISOString().split('T')[0];
+        document.getElementById('due_date').min = issueDate.toISOString().split('T')[0];
+    });
+</script>
+{% endblock %}
+{% endblock %}
